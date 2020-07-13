@@ -17,7 +17,10 @@ async def add_process_time_header(request: Request, call_next):
 
 async def login_verification(request: Request, call_next):
     response = await call_next(request)
-    if request.url == "http://localhost:8000/auth/login" or request.url == "http://localhost:8000/auth/authentication":
+    if request.url in [
+        "http://localhost:8000/auth/login",
+        "http://localhost:8000/auth/authentication"
+    ]:
         return response
 
     token = request.headers.get("authorization")
@@ -27,3 +30,6 @@ async def login_verification(request: Request, call_next):
             return response
 
     return JSONResponse(content={"msg": "Authentication failed"}, status_code=403)
+
+
+

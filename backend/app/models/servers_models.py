@@ -21,3 +21,23 @@ class Server(ServerCrud):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="servers")
+
+
+# class Labels(ServerCrud):
+#     __tablename__ = "labels"
+#
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String, index=True)
+#     description = Column(String, index=True)
+#
+#     owner_id = Column(Integer, ForeignKey("users.id"))
+#
+#     owner = relationship("User", back_populates="labels")
+#
+#
+# class ServerLabels(ServerCrud):
+#     __tablename__ = "servergroup"
+#
+#     id = Column(Integer, primary_key=True)
+#     owner_id = Column(Integer, ForeignKey("servers.id"))
+#     label_id = Column(Integer, ForeignKey("labels.id"))

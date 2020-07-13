@@ -9,11 +9,12 @@ class ServerCrud(BaseCrud):
     @classmethod
     def get_server_by_id(cls, db: Session, id, secret_key=None):
         server = db.query(cls).filter(cls.id == id).first()
+        if not server:
+            return False
         if secret_key is None:
             return server
 
-        server_password = decrypt(server.ciphertext, server.tag, server.nonce, secret_key)
-        print(server_password)
+        server_password = decrypt(server.ciphertext, server.tag, server.nonce, (secret_key*2).encode())
         server.password = server_password
         return server
 

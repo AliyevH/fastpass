@@ -19,7 +19,7 @@ class ServerCreate(ServerBase):
 
 class ServerRead(ServerBase):
     id: int
-    password: str
+    password: Optional[str]
 
 
 

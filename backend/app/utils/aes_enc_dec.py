@@ -11,14 +11,13 @@ def encrypt(data, key):
 def decrypt(ciphertext, tag, nonce, key):
     cipher = AES.new(key, AES.MODE_EAX, nonce)
     plaintext = cipher.decrypt(ciphertext)
-    print(plaintext)
 
     try:
         cipher.verify(tag)
-        print("The message is authentic:", plaintext)
         return plaintext.decode()
     except ValueError:
         print("Key incorrect or message corrupted")
+        return False
 
 
 
