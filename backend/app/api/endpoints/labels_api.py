@@ -35,9 +35,7 @@ def get_label_by_name(
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
         label = labels_model.Label.get_label_by_name(db, label_name)
-        print(user_token.get("user_id"), type(user_token.get("user_id")))
-        print(label.owner_id, type(label.owner_id))
-        if user_token.get("user_id") == label.id:
+        if label and user_token.get("user_id") == label.owner_id:
             return label
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)
 
