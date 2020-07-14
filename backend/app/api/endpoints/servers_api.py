@@ -50,6 +50,8 @@ async def create_server(
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
         server.owner_id = user_token.get("user_id")
+        # add function to check label owner !!!!
+
         ciphertext, tag, nonce = encrypt(server.password.encode(), (server.secret_key*2).encode())
 
         server = server.dict(exclude={"secret_key", "password"})
@@ -60,12 +62,3 @@ async def create_server(
 
         return server
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)
-
-# @router.post("/labels")
-# async def create_label(
-#         db: Session = Depends(get_db),
-#     Authorization: Optional[str] = Header(None)
-# ):
-#     user_token = jwt_token(Authorization)
-#     if isinstance(user_token, dict):
-#         pass

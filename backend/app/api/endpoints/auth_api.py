@@ -3,7 +3,9 @@ from app.schemas import users_schema
 from app.crud.init_db import get_db
 from app.models import users_model
 from app.utils.hash_password import encrypt_password, verify_password
-import jwt, datetime
+import jwt
+import datetime
+from starlette.responses import JSONResponse
 
 from sqlalchemy.orm import Session
 
@@ -24,7 +26,10 @@ async def create_user(user: users_schema.UserCreate, db: Session = Depends(get_d
 @router.post("/auth/login", response_model=users_schema.UserLoginResponse)
 async def login(auth: users_schema.UserLogin, db: Session = Depends(get_db)):
     user = users_model.User.get_user_by_email(db, auth.email)
-    user.token = ""
+    if user:
+        user.token = ""
+    else:
+        return JSONResponse(content={"msg": "Username or password is incorrect"}, status_code=403)
     if verify_password(auth.password, user.hashed_password):
         token = jwt.encode(
             {

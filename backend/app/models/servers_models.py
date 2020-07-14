@@ -5,6 +5,8 @@ from app.crud.servers_crud import ServerCrud
 
 if TYPE_CHECKING:
     from .users_model import User
+    from .labels_model import Label
+
 
 class Server(ServerCrud):
     __tablename__ = "servers"
@@ -19,25 +21,7 @@ class Server(ServerCrud):
     nonce = Column(BINARY)
 
     owner_id = Column(Integer, ForeignKey("users.id"))
+    label_id = Column(Integer, ForeignKey("labels.id"))
 
     owner = relationship("User", back_populates="servers")
-
-
-# class Labels(ServerCrud):
-#     __tablename__ = "labels"
-#
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String, index=True)
-#     description = Column(String, index=True)
-#
-#     owner_id = Column(Integer, ForeignKey("users.id"))
-#
-#     owner = relationship("User", back_populates="labels")
-#
-#
-# class ServerLabels(ServerCrud):
-#     __tablename__ = "servergroup"
-#
-#     id = Column(Integer, primary_key=True)
-#     owner_id = Column(Integer, ForeignKey("servers.id"))
-#     label_id = Column(Integer, ForeignKey("labels.id"))
+    # label = relationship("Label", back_populates="servers")

@@ -7,6 +7,7 @@ class ServerBase(BaseModel):
     ip: str
     login_user: str
     owner_id: int
+    label_id: int
 
     class Config:
         orm_mode = True

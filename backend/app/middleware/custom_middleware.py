@@ -19,7 +19,7 @@ async def login_verification(request: Request, call_next):
     response = await call_next(request)
     if request.url in [
         "http://localhost:8000/auth/login",
-        "http://localhost:8000/auth/authentication"
+        "http://localhost:8000/auth/registration"
     ]:
         return response
 

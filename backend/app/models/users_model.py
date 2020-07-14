@@ -6,7 +6,8 @@ from datetime import datetime
 
 if TYPE_CHECKING:
     from .servers_models import Server
-    
+    from .servers_models import Labels
+
 
 class User(UserCrud):
     __tablename__ = "users"
@@ -20,21 +21,9 @@ class User(UserCrud):
 
     servers = relationship("Server", back_populates="owner")
 
+    labels = relationship("Label", back_populates="owner")
+
     def __repr__(self):
         return f"{self.email}"
 
-
-# class Group(GroupCrud):
-#     __tablename__ = "groups"
-#
-#     id = Column(Integer, primary_key=True, index=True)
-#     group_name = Column(String, unique=True, index=True)
-#
-#
-# class UsersGroups(UsersGroupsCrud):
-#     __tablename__ = "usersgroups"
-#
-#     id = Column(Integer, primary_key=True, index=True)
-#     user_id = Column(Integer, ForeignKey("users.id"))
-#     group_id = Column(Integer, ForeignKey("groups.id"))
 

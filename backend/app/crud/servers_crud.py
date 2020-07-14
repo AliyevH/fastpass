@@ -21,4 +21,3 @@ class ServerCrud(BaseCrud):
     @classmethod
     def get_servers(cls, db: Session, skip: int = 0, limit: int = 100):
         return db.query(cls).offset(skip).limit(limit).all()
-
