@@ -1,5 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
+import uuid
 
 
 class ServerBase(BaseModel):
@@ -7,20 +8,21 @@ class ServerBase(BaseModel):
     hostname: str
     ip: str
     login_user: str
-    owner_id: int
-    label_id: int
+    # owner_id: int
+    # label_id: int
 
     class Config:
         orm_mode = True
 
 
 class ServerCreate(ServerBase):
+    label_Id: uuid.UUID
     password: str
     secret_key: str
 
 
 class ServerRead(ServerBase):
-    id: int
+    id: uuid.UUID
     password: Optional[str]
 
 

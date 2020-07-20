@@ -1,7 +1,11 @@
 from typing import List
 from pydantic import BaseModel
-from .servers_schema import ServerRead, Servers, ServerBase
-from .users_schema import UserRead
+from .servers_schema import ServerRead
+from typing import TYPE_CHECKING
+import uuid
+
+if TYPE_CHECKING:
+    from .users_schema import UserRead
 
 
 class LabelBase(BaseModel):
@@ -19,8 +23,14 @@ class LabelCreate(LabelBase):
 
 class LabelRead(BaseModel):
     name: str
-    owner: UserRead
+    id: uuid.UUID
     servers: List[ServerRead] = []
 
     class Config:
         orm_mode = True
+
+
+class LabelID(BaseModel):
+    label_id: str
+
+

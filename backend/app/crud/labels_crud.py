@@ -1,5 +1,6 @@
 from .base import BaseCrud
 from sqlalchemy.orm import Session
+import uuid
 
 
 class LabelCrud(BaseCrud):
@@ -16,4 +17,8 @@ class LabelCrud(BaseCrud):
 
     @classmethod
     def get_label_by_id(cls, db: Session, label_id):
-        return db.query(cls).filter(cls.id == label_id).first()
+        try:
+            label_id = uuid.UUID(label_id).hex
+            return db.query(cls).filter(cls.id == label_id).first()
+        except Exception as err:
+            print(err)

@@ -10,3 +10,10 @@ def jwt_token(token):
     except Exception as err:
         print(err)
         return False
+
+def verify_token(token):
+    try:
+        return jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    except Exception as err:
+        print(err)
+        return False

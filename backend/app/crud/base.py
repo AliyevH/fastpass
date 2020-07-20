@@ -1,3 +1,7 @@
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column
+import uuid
+
 from app.crud.init_db import Base
 from app.crud.init_db import get_db
 db_session = get_db()
@@ -5,6 +9,8 @@ db_session = get_db()
 
 class BaseCrud(Base):
     __abstract__ = True
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
 
     def save_db(self, db):
         try:

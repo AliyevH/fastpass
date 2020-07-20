@@ -26,22 +26,22 @@ async def get_servers(
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)
 
 
-@router.get("/servers/{server_id}", response_model=servers_schema.ServerRead)
-async def get_server_by_id(
-        server_id: int,
-        secret_key: str = Body(default=None, embed=True),
-        Authorization: Optional[str] = Header(None),
-        db: Session = Depends(get_db)
-):
-    print(secret_key)
-    user_token = jwt_token(Authorization)
-    if isinstance(user_token, dict):
-        try:
-            server = servers_models.Server.get_server_by_id(db, server_id, secret_key)
-            if server:
-                return server
-        except Exception as err:
-            print(err)
+# @router.get("/servers/{server_id}", response_model=servers_schema.ServerRead)
+# async def get_server_by_id(
+#         server_id: str,
+#         secret_key: str = Body(default=None, embed=True),
+#         Authorization: Optional[str] = Header(None),
+#         db: Session = Depends(get_db)
+# ):
+#     print(secret_key)
+#     user_token = jwt_token(Authorization)
+#     if isinstance(user_token, dict):
+#         try:
+#             server = servers_models.Server.get_server_by_id(db, server_id, secret_key)
+#             if server:
+#                 return server
+#         except Exception as err:
+#             print(err)
 
 
 @router.post("/servers", response_model=servers_schema.ServerBase)

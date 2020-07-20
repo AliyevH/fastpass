@@ -32,7 +32,7 @@ async def login_verification(request: Request, call_next):
         if token:
             return response
 
-    return JSONResponse(content={"msg": "Authentication failed"}, status_code=403)
+    return JSONResponse(content={"detail": "Could not validate credentials"}, status_code=401)
 
 
 

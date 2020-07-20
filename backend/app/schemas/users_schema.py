@@ -1,6 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 from .servers_schema import ServerRead
+import uuid
 
 
 class UserBase(BaseModel):
@@ -17,7 +18,7 @@ class UserCreate(UserBase):
 
 
 class UserRead(UserBase):
-    id: int
+    id: uuid.UUID
 
 
 class Users(UserRead):

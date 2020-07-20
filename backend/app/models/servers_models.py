@@ -1,5 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, BINARY, LargeBinary
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
+
 from typing import TYPE_CHECKING
 from app.crud.servers_crud import ServerCrud
 
@@ -11,7 +13,7 @@ if TYPE_CHECKING:
 class Server(ServerCrud):
     __tablename__ = "servers"
 
-    id = Column(Integer, primary_key=True)
+    # id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     hostname = Column(String, index=True)
     ip = Column(String, index=True)
@@ -20,8 +22,8 @@ class Server(ServerCrud):
     tag = Column(LargeBinary)
     nonce = Column(LargeBinary)
 
-    owner_id = Column(Integer, ForeignKey("users.id"))
-    label_id = Column(Integer, ForeignKey("labels.id"))
+    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    label_id = Column(UUID(as_uuid=True), ForeignKey("labels.id"))
 
     owner = relationship("User", back_populates="servers")
     label = relationship("Label", back_populates="servers")

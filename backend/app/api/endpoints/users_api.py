@@ -26,14 +26,23 @@ async def get_users(
 
 
 @router.get("/user", response_model=users_schema.UserRead)
-def read_users(
+async def read_users(
         Authorization: Optional[str] = Header(None),
         db: Session = Depends(get_db)
 ):
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
-        user = users_model.User.get_user_by_id(db, user_token.get("user_id"))
-        return user
+        return users_model.User.get_user_by_id(db, user_token.get("user_id"))
+
+
+@router.delete("/user")
+async def delete_user(
+        Authorization: Optional[str] = Header(None),
+        db: Session = Depends(get_db)
+):
+    user_token = jwt_token(Authorization)
+    if isinstance(user_token, dict):
+        return users_model.User.delete(db)
 
 
 # @router.get("/user/email", response_model=users_schema.UserRead)
