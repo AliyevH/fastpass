@@ -7,6 +7,9 @@ if TYPE_CHECKING:
     from .users_model import User
 
 
+
+
+
 class Label(LabelCrud):
     __tablename__ = "labels"
 
@@ -18,4 +21,7 @@ class Label(LabelCrud):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="labels")
-    # servers = relationship("Server", back_populates="label")
+    servers = relationship("Server", back_populates="label")
+
+    def __repr__(self):
+        return f"Name: {self.name}, \nOwner: {self.owner}, \nServers: {self.servers}"

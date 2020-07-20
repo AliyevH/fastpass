@@ -24,7 +24,10 @@ async def create_user(user: users_schema.UserCreate, db: Session = Depends(get_d
 
 
 @router.post("/auth/login", response_model=users_schema.UserLoginResponse)
-async def login(auth: users_schema.UserLogin, db: Session = Depends(get_db)):
+async def login(
+        auth: users_schema.UserLogin,
+        db: Session = Depends(get_db)
+):
     user = users_model.User.get_user_by_email(db, auth.email)
     if user:
         user.token = ""

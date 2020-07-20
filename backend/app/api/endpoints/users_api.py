@@ -36,11 +36,11 @@ def read_users(
         return user
 
 
-@router.get("/user/email", response_model=users_schema.UserRead)
-async def get_user_by_email(
-        Authorization: Optional[str] = Header(None),
-        db: Session = Depends(get_db)
-):
-    user_token = jwt_token(Authorization)
-    if isinstance(user_token, dict):
-        return users_model.User.get_user_by_email(db, user_token.get("user_email"))
+# @router.get("/user/email", response_model=users_schema.UserRead)
+# async def get_user_by_email(
+#         Authorization: Optional[str] = Header(None),
+#         db: Session = Depends(get_db)
+# ):
+#     user_token = jwt_token(Authorization)
+#     if isinstance(user_token, dict):
+#         return users_model.User.get_user_by_email(db, user_token.get("user_email"))

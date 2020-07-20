@@ -13,3 +13,7 @@ class LabelCrud(BaseCrud):
     @classmethod
     def get_labels(cls, db: Session, skip: int = 0, limit: int = 100):
         return db.query(cls).offset(skip).limit(limit).all()
+
+    @classmethod
+    def get_label_by_id(cls, db: Session, label_id):
+        return db.query(cls).filter(cls.id == label_id).first()

@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends, Header, Body
 from typing import List, Optional
+
+from sqlalchemy.orm import Session
+from starlette.responses import JSONResponse
+
+from app.models import servers_models, labels_model
 from app.schemas import servers_schema
 from app.crud.init_db import get_db
-from app.models import servers_models
-from sqlalchemy.orm import Session
 from app.utils.jwt_decode import jwt_token
 from app.utils.aes_enc_dec import encrypt
-from starlette.responses import JSONResponse
 
 router = APIRouter()
 
@@ -21,6 +23,7 @@ async def get_servers(
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict) and user_token.get("user_email") == "admin@fastpass.com":
         return servers_models.Server.get_servers(db, skip, limit)
+    return JSONResponse(content={"msg": "Access denied"}, status_code=403)
 
 
 @router.get("/servers/{server_id}", response_model=servers_schema.ServerRead)
@@ -50,15 +53,17 @@ async def create_server(
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
         server.owner_id = user_token.get("user_id")
-        # add function to check label owner !!!!
 
-        ciphertext, tag, nonce = encrypt(server.password.encode(), (server.secret_key*2).encode())
+        label = labels_model.Label.get_label_by_id(db, server.label_id)
+        if label and label.owner_id == user_token.get("user_id"):
 
-        server = server.dict(exclude={"secret_key", "password"})
-        server.update(**{"ciphertext": ciphertext, "tag": tag, "nonce": nonce})
+            ciphertext, tag, nonce = encrypt(server.password.encode(), (server.secret_key*2).encode())
 
-        server = servers_models.Server(**server)
-        server.save_db(db)
+            server = server.dict(exclude={"secret_key", "password"})
+            server.update(**{"ciphertext": ciphertext, "tag": tag, "nonce": nonce})
 
-        return server
+            server = servers_models.Server(**server)
+            server.save_db(db)
+
+            return server
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)

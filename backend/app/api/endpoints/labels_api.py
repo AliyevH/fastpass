@@ -20,37 +20,36 @@ async def get_labels(
 ):
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
-        label = labels_model.Label.get_labels(db, skip, limit)
-        return label
+        return labels_model.Label.get_labels(db, skip, limit)
 
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)
 
 
-@router.get("/labels/{label_name}", response_model=labels_schema.LabelRead)
+@router.get("/labels/{label_id}", response_model=labels_schema.LabelRead)
 def get_label_by_name(
-        label_name: str,
+        label_id: int,
         Authorization: Optional[str] = Header(None),
         db: Session = Depends(get_db)
 ):
     user_token = jwt_token(Authorization)
     if isinstance(user_token, dict):
-        label = labels_model.Label.get_label_by_name(db, label_name)
+        label = labels_model.Label.get_label_by_id(db, label_id)
         if label and user_token.get("user_id") == label.owner_id:
             return label
     return JSONResponse(content={"msg": "Access denied"}, status_code=403)
 
 
-@router.post("/labels", response_model=labels_schema.LabelRead)
-def create_label(
-        label: labels_schema.LabelCreate,
-        Authorization: Optional[str] = Header(None),
-        db: Session = Depends(get_db)
-):
-    user_token = jwt_token(Authorization)
-    if isinstance(user_token, dict):
-        label_obj = labels_model.Label(**label.dict())
-        label_obj.owner_id = user_token.get("user_id")
-        label_obj.save_db(db)
-        return label_obj
-
-    return JSONResponse(content={"msg": "Access denied"}, status_code=403)
+# @router.post("/labels", response_model=labels_schema.LabelRead)
+# def create_label(
+#         label: labels_schema.LabelCreate,
+#         Authorization: Optional[str] = Header(None),
+#         db: Session = Depends(get_db)
+# ):
+#     user_token = jwt_token(Authorization)
+#     if isinstance(user_token, dict):
+#         label_obj = labels_model.Label(**label.dict())
+#         label_obj.owner_id = user_token.get("user_id")
+#         label_obj.save_db(db)
+#         return label_obj
+#
+#     return JSONResponse(content={"msg": "Access denied"}, status_code=403)

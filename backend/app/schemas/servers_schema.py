@@ -1,5 +1,6 @@
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
+
 
 class ServerBase(BaseModel):
     name: str
@@ -21,7 +22,6 @@ class ServerCreate(ServerBase):
 class ServerRead(ServerBase):
     id: int
     password: Optional[str]
-
 
 
 class Servers(ServerRead):

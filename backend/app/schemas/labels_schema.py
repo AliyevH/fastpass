@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel
-from .servers_schema import ServerRead
+from .servers_schema import ServerRead, Servers, ServerBase
 from .users_schema import UserRead
 
 
@@ -17,6 +17,10 @@ class LabelCreate(LabelBase):
     pass
 
 
-class LabelRead(LabelBase):
+class LabelRead(BaseModel):
+    name: str
     owner: UserRead
-    server: List[ServerRead] = []
+    servers: List[ServerRead] = []
+
+    class Config:
+        orm_mode = True

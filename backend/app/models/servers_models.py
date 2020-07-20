@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, BINARY
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, BINARY, LargeBinary
 from sqlalchemy.orm import relationship
 from typing import TYPE_CHECKING
 from app.crud.servers_crud import ServerCrud
@@ -16,12 +16,15 @@ class Server(ServerCrud):
     hostname = Column(String, index=True)
     ip = Column(String, index=True)
     login_user = Column(String)
-    ciphertext = Column(BINARY)
-    tag = Column(BINARY)
-    nonce = Column(BINARY)
+    ciphertext = Column(LargeBinary)
+    tag = Column(LargeBinary)
+    nonce = Column(LargeBinary)
 
     owner_id = Column(Integer, ForeignKey("users.id"))
     label_id = Column(Integer, ForeignKey("labels.id"))
 
     owner = relationship("User", back_populates="servers")
-    # label = relationship("Label", back_populates="servers")
+    label = relationship("Label", back_populates="servers")
+
+    def __repr__(self):
+        return f"\n\t{self.name}, {self.hostname}, {self.ip}"

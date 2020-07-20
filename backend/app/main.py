@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.routers import api_router
-from app.models.base_db import Base
+from app.crud.init_db import Base
 from starlette.middleware.base import BaseHTTPMiddleware
 from app.middleware.custom_middleware import add_process_time_header, login_verification
 

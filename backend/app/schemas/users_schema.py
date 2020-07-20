@@ -4,6 +4,8 @@ from .servers_schema import ServerRead
 
 
 class UserBase(BaseModel):
+    first_name: str
+    last_name: str
     email: EmailStr
 
     class Config:
@@ -27,8 +29,12 @@ class UserServers(UserRead):
     pass
 
 
-class UserLogin(UserBase):
+class UserLogin(BaseModel):
+    email: EmailStr
     password: str
+
+    class Config:
+        orm_mode = True
 
 
 class UserLoginResponse(UserBase):
