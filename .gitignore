@@ -4,4 +4,3 @@ backend/alembic/versions/*.py
 **/.idea/
 **/.venv/
 **/__pycache__
-
