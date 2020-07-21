@@ -1,0 +1,7 @@
+backend/alembic/versions
+backend/db_data
+**/.env
+**/.idea/
+**/.venv/
+**/__pycache__
+
