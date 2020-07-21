@@ -4,3 +4,7 @@ backend/alembic/versions/*.py
 **/.idea/
 **/.venv/
 **/__pycache__
+/frontend/node_modules
+/frontend/jspm_packages/
+/frontentd/dist/
+frontend/.npm
