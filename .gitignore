@@ -1,4 +1,4 @@
-backend/alembic/versions
+backend/alembic/versions/*.py
 backend/db_data
 **/.env
 **/.idea/
