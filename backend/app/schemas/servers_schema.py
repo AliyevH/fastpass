@@ -16,7 +16,8 @@ class ServerBase(BaseModel):
 
 
 class ServerCreate(ServerBase):
-    label_Id: uuid.UUID
+    label_id: uuid.UUID
+    # owner_id: Optional[uuid.UUID]
     password: str
     secret_key: str
 

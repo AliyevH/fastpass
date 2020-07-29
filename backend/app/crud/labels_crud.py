@@ -18,7 +18,7 @@ class LabelCrud(BaseCrud):
     @classmethod
     def get_label_by_id(cls, db: Session, label_id):
         try:
-            label_id = uuid.UUID(label_id).hex
+            # label_id = uuid.UUID(label_id).hex
             return db.query(cls).filter(cls.id == label_id).first()
         except Exception as err:
             print(err)

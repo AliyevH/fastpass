@@ -30,7 +30,7 @@ async def read_users(
         Authorization: Optional[str] = Header(None),
         db: Session = Depends(get_db)
 ):
-    user_token = jwt_token(Authorization)
+    usen(Authorizatir_token = jwt_tokeon)
     if isinstance(user_token, dict):
         return users_model.User.get_user_by_id(db, user_token.get("user_id"))
 

@@ -4,7 +4,6 @@ import uuid
 
 from app.crud.init_db import Base
 from app.crud.init_db import get_db
-db_session = get_db()
 
 
 class BaseCrud(Base):

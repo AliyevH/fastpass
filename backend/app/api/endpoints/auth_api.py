@@ -41,7 +41,6 @@ async def login(
     :return: user object with jwt token
     """
     user = users_model.User.get_user_by_email(db, auth.email)
-    print(user.id)
     if user:
         user.token = ""
     else:

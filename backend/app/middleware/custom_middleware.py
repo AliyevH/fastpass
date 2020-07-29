@@ -23,6 +23,13 @@ async def login_verification(request: Request, call_next):
         "http://localhost:8000/redoc",
         "http://localhost:8000/docs",
         "http://localhost:8000/openapi.json"
+
+
+        "http://192.168.20.65:8000/auth/login",
+        "http://192.168.20.65:8000/auth/registration",
+        "http://192.168.20.65:8000/redoc",
+        "http://192.168.20.65:8000/docs",
+        "http://192.168.20.65:8000/openapi.json"
     ]:
         return response
 

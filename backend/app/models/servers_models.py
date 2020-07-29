@@ -13,14 +13,11 @@ if TYPE_CHECKING:
 class Server(ServerCrud):
     __tablename__ = "servers"
 
-    # id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     hostname = Column(String, index=True)
     ip = Column(String, index=True)
     login_user = Column(String)
-    ciphertext = Column(LargeBinary)
-    tag = Column(LargeBinary)
-    nonce = Column(LargeBinary)
+    ciphertext = Column(String)
 
     owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     label_id = Column(UUID(as_uuid=True), ForeignKey("labels.id"))
@@ -29,4 +26,4 @@ class Server(ServerCrud):
     label = relationship("Label", back_populates="servers")
 
     def __repr__(self):
-        return f"\n\t{self.name}, {self.hostname}, {self.ip}"
+        return f"\n{self.name}, {self.hostname}, {self.ip}"
