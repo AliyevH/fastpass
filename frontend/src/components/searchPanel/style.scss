@@ -1,0 +1,24 @@
+.search_panel{
+    position: fixed;
+    top: 90px;
+    background-color: #fff;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    z-index: 99;
+    border-bottom: 1px solid #498FD6;
+    transition: .3s;
+    overflow: hidden;
+    transition: .1s;
+    .MuiFormControl-root{
+        width: 100%;
+    }
+    .MuiInput-underline:after,.MuiInput-underline::before{
+        display: none;
+    }
+}
+.close_search{
+    height: 0px !important;
+}

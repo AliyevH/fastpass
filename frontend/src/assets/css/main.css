@@ -1,0 +1,47 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  overflow: scroll;
+}
+
+button,
+input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+* {
+  font-weight: 400 !important;
+}
+
+a {
+  color: #000;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.active_navbar {
+  padding: 20px 20px 20px 325px !important;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.pages_block {
+  padding: 20px 20px 20px 83px;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+/*# sourceMappingURL=main.css.map */

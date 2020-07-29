@@ -1,0 +1,67 @@
+.menu {
+  background-color: #498FD6;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 110px 0px 20px 0px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.close_menu {
+  width: 63px !important;
+}
+
+.menu_inner {
+  padding: 0px;
+  list-style: none;
+  width: 100%;
+  overflow: hidden;
+}
+
+.menu_inner li {
+  width: 100%;
+}
+
+.menu_inner li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.menu_inner li a {
+  width: 100%;
+  display: block;
+  min-width: 150px;
+}
+
+.menu_inner li a i {
+  margin-right: 20px;
+}
+
+.menu_inner li a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.menu_inner li a button {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 5px 20px;
+  color: #fff;
+}
+
+.menu_inner li a button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,105 @@
+.header_app {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 90px;
+  background-color: #fff;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 22px 20px 0px 20px;
+  -webkit-box-shadow: 0px -18px 20px 10px #000;
+          box-shadow: 0px -18px 20px 10px #000;
+  z-index: 100;
+}
+
+.header_app .title_header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #498FD6;
+  width: 100%;
+  height: 23px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 14px;
+}
+
+.header_app .left_column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header_app .left_column button {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+  border-radius: 50%;
+  padding: 0px;
+  min-width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.header_app .left_column button i {
+  font-size: 26px;
+}
+
+.header_app .left_column .logo {
+  color: gray;
+  margin-left: 50px;
+  margin-bottom: 0px;
+  font-family: cursive;
+}
+
+.header_app .right_column button {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+  border-radius: 50%;
+  padding: 0px;
+  min-width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.header_app .right_column button i {
+  font-size: 26px;
+}
+/*# sourceMappingURL=style.css.map */
