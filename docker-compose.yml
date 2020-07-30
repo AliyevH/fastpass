@@ -1,7 +1,8 @@
-version: "3.3"
+version: "3.8"
 services:
-  db:
+  postgres:
     image: postgres
+    container_name: postgres
     volumes:
       - ./db_data:/var/lib/postgresql/data/pgdata
 #    env_file:
@@ -16,8 +17,9 @@ services:
   
   pgadmin:
     image: dpage/pgadmin4
+    container_name: pgadmin
     depends_on:
-      - db
+      - postgres
 #    env_file:
 #      - .env
     environment:
@@ -27,3 +29,18 @@ services:
     ports:
       - 5050:5050
 
+
+  fastpass:
+    #image: python:3.8
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fastpass
+    volumes:
+      - ./backend:/app
+    ports:
+    - 8000:8000
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
