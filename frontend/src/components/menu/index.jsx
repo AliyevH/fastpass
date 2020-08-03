@@ -2,10 +2,12 @@ import React from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {signOut} from '../../actions/authActions';
 
 function Index() {
     const menuValue = useSelector(state => state.headerReducer.menuValue)
+    const dispatch = useDispatch();
     return (
         <div className={menuValue ? "menu" : "menu close_menu"}>
             <ul className="menu_inner">
@@ -26,6 +28,9 @@ function Index() {
                     </Link>
                 </li>
             </ul>
+            <div className="logout">
+                <Button onClick={() => dispatch(signOut())}><span className="material-icons">login</span>Logout</Button>
+            </div>
         </div>
     )
 }

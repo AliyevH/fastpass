@@ -1,7 +1,63 @@
-.profile_page{
+.profile_page {
     padding: 20px;
-    .title{
-        color: #498FD6;
+    .title {
+        color: #498fd6;
         font-size: 24px;
+        margin-bottom: 30px;
+    }
+    .row_info {
+        margin-bottom: 20px;
+        p {
+            margin-bottom: 0px;
+            &:first-child {
+                color: #a5a5a5;
+                font-size: 14px;
+                margin-bottom: 0px;
+            }
+            &:last-child {
+                color: #498fd6;
+                font-size: 16px;
+            }
+        }
+    }
+    .buttons {
+        margin-top: 40px;
+        button {
+            margin-right: 10px;
+            background-color: #eee;
+        }
+    }
+}
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal_inner {
+        width: 40%;
+        background-color: #eee;
+        padding: 20px;
+        .input {
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            .MuiInput-root {
+                width: 100%;
+            }
+        }
+        .footer_modal{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 40px;
+            button{
+                color: #fff;
+                &:first-child{
+                    background-color: rgb(52, 158, 52);
+                }
+                &:last-child{
+                    background-color: rgb(60, 60, 255);
+                }
+            }
+        }
     }
 }

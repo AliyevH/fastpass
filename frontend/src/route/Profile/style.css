@@ -3,7 +3,89 @@
 }
 
 .profile_page .title {
-  color: #498FD6;
+  color: #498fd6;
   font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.profile_page .row_info {
+  margin-bottom: 20px;
+}
+
+.profile_page .row_info p {
+  margin-bottom: 0px;
+}
+
+.profile_page .row_info p:first-child {
+  color: #a5a5a5;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+.profile_page .row_info p:last-child {
+  color: #498fd6;
+  font-size: 16px;
+}
+
+.profile_page .buttons {
+  margin-top: 40px;
+}
+
+.profile_page .buttons button {
+  margin-right: 10px;
+  background-color: #eee;
+}
+
+.modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.modal .modal_inner {
+  width: 40%;
+  background-color: #eee;
+  padding: 20px;
+}
+
+.modal .modal_inner .input {
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal .modal_inner .input .MuiInput-root {
+  width: 100%;
+}
+
+.modal .modal_inner .footer_modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 40px;
+}
+
+.modal .modal_inner .footer_modal button {
+  color: #fff;
+}
+
+.modal .modal_inner .footer_modal button:first-child {
+  background-color: #349e34;
+}
+
+.modal .modal_inner .footer_modal button:last-child {
+  background-color: #3c3cff;
 }
 /*# sourceMappingURL=style.css.map */

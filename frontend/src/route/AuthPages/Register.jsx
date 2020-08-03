@@ -47,7 +47,7 @@ export default function Login() {
                         required
                         fullWidth
                         label="User name"
-                        name="username"
+                        name="email"
                         autoFocus
                     />
                     {

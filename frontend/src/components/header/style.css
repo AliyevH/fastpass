@@ -55,7 +55,7 @@
 .header_app .left_column button {
   background-color: transparent;
   border: none;
-  padding: 0px;
+  padding: 0px !important;
   border-radius: 50%;
   padding: 0px;
   min-width: auto;
@@ -84,7 +84,7 @@
 .header_app .right_column button {
   background-color: transparent;
   border: none;
-  padding: 0px;
+  padding: 0px !important;
   border-radius: 50%;
   padding: 0px;
   min-width: auto;

@@ -1,4 +1,4 @@
-$siteColor: #498FD6;
+$siteColor: #498fd6;
 .menu {
     background-color: $siteColor;
     width: 300px;
@@ -46,6 +46,27 @@ $siteColor: #498FD6;
                     background-color: rgba(255, 255, 255, 0.3);
                 }
             }
+        }
+    }
+}
+.logout {
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    min-width: 150px;
+    width: 100%;
+    button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 5px 20px;
+        color: #fff;
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        span{
+            margin-right: 20px;
         }
     }
 }
