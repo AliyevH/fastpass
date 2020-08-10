@@ -1,0 +1,12 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "fisrt_name": "Jack",
+        "last_name": "Taylor",
+        "email": "admin@mail.ru",
+        "password": "admin12",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+    ]
+  }

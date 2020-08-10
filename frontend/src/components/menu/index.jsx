@@ -2,10 +2,15 @@ import React from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '../../actions/Auth';
+import {useHistory} from "react-router-dom";
+
 
 function Index() {
-    const menuValue = useSelector(state => state.headerReducer.menuValue)
+    const menuValue = useSelector(state => state.headerReducer.menuValue);
+    const history = useHistory();
+    const dispatch = useDispatch();
     return (
         <div className={menuValue ? "menu" : "menu close_menu"}>
             <ul className="menu_inner">
@@ -18,7 +23,7 @@ function Index() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile">
+                    <Link to="/app/profile">
                         <Button>
                             <i className="material-icons">account_box</i>
                                 profile
@@ -26,6 +31,9 @@ function Index() {
                     </Link>
                 </li>
             </ul>
+            <div className="logout">
+                <Button  onClick={() => dispatch(signOut(history))}><span className="material-icons">login</span>Logout</Button>
+            </div>
         </div>
     )
 }

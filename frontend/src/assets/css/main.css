@@ -21,6 +21,11 @@ input:focus {
           box-shadow: none;
 }
 
+button {
+  height: 30px;
+  padding: 0px 20px !important;
+}
+
 * {
   font-weight: 400 !important;
 }
@@ -35,13 +40,13 @@ a:hover {
 
 .active_navbar {
   padding: 20px 20px 20px 325px !important;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .pages_block {
   padding: 20px 20px 20px 83px;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 /*# sourceMappingURL=main.css.map */

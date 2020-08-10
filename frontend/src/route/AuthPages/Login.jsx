@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { useSelector, useDispatch } from 'react-redux';
-import { handleChange, accessUser } from '../../actions/authActions';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, Redirect, Link } from "react-router-dom";
+import {
+    signin,
+    changeLoginForm,
+    setLoginFormErrors,
+} from "../../actions/Auth";
 import Alert from '@material-ui/lab/Alert';
+import { CircularProgress } from '@material-ui/core';
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from "@material-ui/core/Slide";
+import { SIGNIN_ERROR } from "../../constants/ActionTypes";
+import './style.css'
 
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
-import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
-
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -39,29 +46,67 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login() {
+export default function SignIn() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [inputMessage, setInputMessage] = useState(false)
-    const hasUser = useSelector(state => state.authReducer.hasUser);
-    const userInfo = useSelector(state => state.authReducer.userInfo);
+    const history = useHistory();
+    let [timer, setTimer] = useState(null);
+    const auth = useSelector(state => state.auth);
+    const { email, password, formErrors, isLoading, access_token, authUser, loginError } = auth;
 
-    function handleSubmit(e) {
+    const handleChange = (e) => {
+        dispatch(changeLoginForm({ name: e.target.name, value: e.target.value }));
+    };
+
+    const allowSubmit = () => {
+        const { email, password } = auth;
+        let formErrors = {
+            email: {
+                error: false,
+                message: ""
+            },
+            password: {
+                error: false,
+                message: ""
+            }
+        };
+
+        formErrors.email.error = email.trim() === "";
+        formErrors.password.error = password.trim() === "";
+
+        formErrors.email.message = formErrors.email.error ? "Email can not be blank." : "";
+        formErrors.password.message = formErrors.password.error ? "Password can not be blank." : "";
+
+        dispatch(setLoginFormErrors(formErrors));
+        return Object.values(formErrors).find(field => field.error === true) === undefined;
+    };
+
+    useEffect(() => {
+        const tmpTimer = setTimeout(() => {
+            dispatch({
+                type: SIGNIN_ERROR, payload: { error: false, message: "" }
+            });
+        }, 3000);
+        setTimer(tmpTimer);
+    }, [loginError.error]);
+
+    useEffect(() => {
+        return () => {
+            timer && clearTimeout(timer);
+        }
+    }, []);
+
+    const onSubmit = (e) => {
         e.preventDefault();
-        if (userInfo.username === hasUser.username.trim() && userInfo.password === hasUser.password.trim()) {
-            dispatch(accessUser(true));
-            setInputMessage(false)
+        if (allowSubmit()) {
+            const { email, password } = auth;
+            dispatch(signin({ email, password, history }));
         }
-        else {
-            dispatch(accessUser(false));
-            setInputMessage(true)
-        }
-    }
-    
-    function inputChanged(e) {
-        dispatch(handleChange({ [e.target.name]: e.target.value }))
-    }
+    };
 
+    if (access_token && authUser) {
+        return <Redirect to={'/app/dashboard'} />
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -69,21 +114,31 @@ export default function Login() {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">Sign in</Typography>
-                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                {
+                    isLoading ? <CircularProgress /> : null
+                }
+                <form className={classes.form} noValidate onSubmit={(e) => { onSubmit(e) }} method="post">
                     <TextField
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        label="User name"
-                        name="username"
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
                         autoFocus
-                        onChange={inputChanged}
+                        value={email}
+                        onChange={(e) => handleChange(e)}
                     />
+
                     {
-                        inputMessage ? <Alert severity="error">Incorrect</Alert> : null
+                        formErrors.email.error ? <Alert severity="error">{formErrors.email.message}</Alert> : null
                     }
+
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -92,12 +147,13 @@ export default function Login() {
                         name="password"
                         label="Password"
                         type="password"
+                        id="password"
                         autoComplete="current-password"
-                        onChange={inputChanged}
-
+                        value={password}
+                        onChange={(e) => handleChange(e)}
                     />
                     {
-                        inputMessage ? <Alert severity="error">Incorrect</Alert> : null
+                        formErrors.password.error ? <Alert severity="error">{formErrors.password.message}</Alert> : null
                     }
                     <Button
                         type="submit"
@@ -105,19 +161,20 @@ export default function Login() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}>Sign In</Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link className="login_a" href="#" variant="body2">
-                                Forgot password?</Link>
-                        </Grid>
-                        <Grid item>
-                            <Link className="login_a" to="/register" variant="body2">
-                                Don't have an account? Sign Up
-                            </Link>
-                        </Grid>
-                    </Grid>
+                    <div>
+                        <Link to="/signup" variant="body2" className="login_a">
+                            {"Don't have an account? Sign Up"}
+                        </Link>
+                    </div>
                 </form>
             </div>
+            {
+                loginError.error ? <Snackbar
+                    open={true}
+                    TransitionComponent={TransitionUp}
+                    message={loginError.message}
+                /> : null
+            }
         </Container>
     );
 }

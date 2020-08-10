@@ -1,0 +1,9 @@
+export const INIT_URL = "INIT_URL";
+export const SET_LOADING = "SET_LOADING";
+export const GET_USER = "GET_USER";
+export const CHANGE_LOGIN_FORM = "CHANGE_LOGIN_FORM";
+export const SIGNIN_ERROR = "SIGNIN_ERROR";
+export const SIGNIN_SUCCESS = "SIGNIN_SUCCESS";
+export const SET_LOGIN_FORM_ERRORS = "SET_LOGIN_FORM_ERRORS";
+export const FORCE_QUIT = "FORCE_QUIT";
+export const SIGN_OUT = "SIGN_OUT";
