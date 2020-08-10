@@ -1,81 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { handleChange, accessUser } from '../../actions/authActions';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import axios from 'axios';
-import {useHistory} from 'react-router';
-// import Alert from '@material-ui/lab/Alert';
-
-import {useSelector, useDispatch} from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory, Redirect} from "react-router-dom";
+import {Container, Form, Button} from "react-bootstrap";
+import Row from "react-bootstrap/Row";
 import {
-    signIn, handleChange,
-} from "../../actions/authActions";
+    signin,
+    changeLoginForm,
+    setLoginFormErrors,
+} from "../../actions/Auth";
+import CircularProgress from "../../components/circularProgress";
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from "@material-ui/core/Slide";
+import {SIGNIN_ERROR} from "../../constants/ActionTypes";
 
-import CircularProgress from "../../components/Proggress/CircularProgress";
+function TransitionUp(props) {
+    return <Slide {...props} direction="up"/>;
+}
 
-import './style.css';
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-export default function Login() {
-    const classes = useStyles();
-    const history = useHistory();
-    const authUser = useSelector(state => state.authReducer.authUser);
-    const isLoading = useSelector(state => state.authReducer.isLoading);
+const Login = () => {
     const dispatch = useDispatch();
-    const [userInfo, setUserInfo] = useState({
-        email: "",
-        password: ""
-    })
-    const [formErrors, setFormErrors] = useState({
-        email: {
-            error: false,
-            message: ""
-        },
-        password: {
-            error: false,
-            message: ""
-        }
-    });
+    const history = useHistory();
+    let [timer, setTimer] = useState(null);
+    const auth = useSelector(state => state.auth);
+    const {username, password, formErrors, isLoading, access_token, authUser, loginError} = auth;
 
-    useEffect(() => {
-        authUser && history.push('/app/dashboard');
-    }, [authUser]);
+    const handleChange = (e) => {
+        dispatch(changeLoginForm({name: e.target.name, value: e.target.value}));
+    };
 
     const allowSubmit = () => {
-        const {email, password} = userInfo;
-        let errors = {
-            email: {
+        const {username, password} = auth;
+        let formErrors = {
+            username: {
                 error: false,
                 message: ""
             },
@@ -85,100 +41,92 @@ export default function Login() {
             }
         };
 
-        errors.email.error = email.trim() === "";
-        errors.password.error = password.trim() === "";
-        
-        errors.email.message = errors.email.error ? "email can not be empty." : "";
-        errors.password.message = errors.password.error ? "Password can not be empty." : "";
-        
-        setFormErrors(errors)
-        return Object.values(errors).find(field => field.error === true) === undefined;
-    }
+        formErrors.username.error = username.trim() === "";
+        formErrors.password.error = password.trim() === "";
 
-    const handleLogin = (e) => {
+        formErrors.username.message = formErrors.username.error ? "Username can not be blank." : "";
+        formErrors.password.message = formErrors.password.error ? "Password can not be blank." : "";
+
+        dispatch(setLoginFormErrors(formErrors));
+        return Object.values(formErrors).find(field => field.error === true) === undefined;
+    };
+
+    useEffect(() => {
+        const tmpTimer = setTimeout(() => {
+            dispatch({
+                type: SIGNIN_ERROR, payload: {error: false, message: ""}
+            });
+        }, 3000);
+        setTimer(tmpTimer);
+    }, [loginError.error]);
+
+    useEffect(() => {
+        return () => {
+            timer && clearTimeout(timer);
+        }
+    }, []);
+
+    const onSubmit = (e) => {
         e.preventDefault();
-        if(allowSubmit()){
-            const {email, password} = userInfo;
-            const requestObject = {
-                email,
-                password
-            }
-            dispatch(signIn(requestObject));
+        if (allowSubmit()) {
+            const {username, password} = auth;
+            dispatch(signin({username, password, history}));
         }
     };
 
-    const handleChange = (formObject) => {
-        setUserInfo({
-            ...userInfo,
-            ...formObject,
-        })
+    if(access_token && authUser){
+        return <Redirect to={'/app/dashboard'} />
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
+        <Container>
+            <Row>
+                <div className="app-login-component">
+                    <h2 className="mb-2 app-signin-head">Signin
+                        {
+                            isLoading ? <CircularProgress/> : null
+                        }
+                    </h2>
+                    <Form onSubmit={(e) => {
+                        onSubmit(e)
+                    }} method="post">
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control name="username" value={username} onChange={(e) => handleChange(e)} type="text"
+                                          placeholder="Enter username"/>
+                            {formErrors.username.error ? <Form.Text className="text-muted error">
+                                {formErrors.username.message}
+                            </Form.Text> : null
+                            }
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control name="password" value={password} onChange={(e) => {
+                                handleChange(e)
+                            }}
+                                          type="password" placeholder="Password"/>
+                            {formErrors.password.error ? <Form.Text className="text-muted error">
+                                {formErrors.password.message}
+                            </Form.Text> : null
+                            }
+                        </Form.Group>
+                        <Button disabled={isLoading} variant="primary" type="submit">
+                            Login
+                        </Button>
+                    </Form>
+                </div>
                 {
-                    isLoading ? <CircularProgress /> : (
-                        <>
-                            <Avatar className={classes.avatar}>
-                                <LockOutlinedIcon />
-                            </Avatar>
-                            <Typography component="h1" variant="h5">Sign in</Typography>
-                        </>
-                    )
+                    loginError.error ? <Snackbar
+                        open={true}
+                        TransitionComponent={TransitionUp}
+                        message={loginError.message}
+                    /> : null
                 }
-                <form className={classes.form} onSubmit={(e) => handleLogin(e)} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="E-mail"
-                        name="email"
-                        autoFocus
-                        error={formErrors.email.error}
-                        helperText={formErrors.email.message}
-                        onChange={(e) => handleChange({[e.target.name] : e.target.value})}
-                    />
-                    {/* {
-                        inputMessage ? <Alert severity="error">Incorrect</Alert> : null
-                    } */}
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        autoComplete="current-password"
-                        error={formErrors.password.error}
-                        helperText={formErrors.password.message}
-                        onChange={(e) => handleChange({[e.target.name] : e.target.value})}
-                    />
-                    {/* {
-                        inputMessage ? <Alert severity="error">Incorrect</Alert> : null
-                    } */}
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}>Sign In</Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link className="login_a" to="/register" variant="body2">
-                                Forgot password?</Link>
-                        </Grid>
-                        <Grid item>
-                            <Link className="login_a" to="/register" variant="body2">
-                                Don't have an account? Sign Up
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
-            </div>
+
+            </Row>
         </Container>
     );
-}
+};
+
+export default Login

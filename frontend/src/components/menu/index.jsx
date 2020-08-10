@@ -3,7 +3,7 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import {signOut} from '../../actions/authActions';
+import {signOut} from '../../actions/Auth';
 
 function Index() {
     const menuValue = useSelector(state => state.headerReducer.menuValue)
