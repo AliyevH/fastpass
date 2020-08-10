@@ -1,51 +1,38 @@
-import React, {Component} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Nprogress from 'nprogress';
 import ReactPlaceholder from 'react-placeholder';
 import 'nprogress/nprogress.css';
 import 'react-placeholder/lib/reactPlaceholder.css';
-import CircularProgress from "../components/circularProgress/index";
+import { CircularProgress } from '@material-ui/core';
 
 export default function asyncComponent(importComponent) {
-    class AsyncFunc extends Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                component: null
+    return (props) => {
+        Nprogress.start();
+
+        const [component, setComponent] = useState(null);
+        let mounted = useRef(true);
+
+        useEffect(() => {
+            const asyncComponentDidMount = async () => {
+                const {default: Component} = await importComponent();
+                if (mounted.current) {
+                    setComponent(<Component {...props} />);
+                    mounted.current = false;
+                }
             };
-        }
+            asyncComponentDidMount().then(r => Nprogress.done());
 
-        componentWillMount() {
-            Nprogress.start();
-        }
+        }, [component]);
 
-        componentWillUnmount() {
-            this.mounted = false;
-        }
-
-        async componentDidMount() {
-            this.mounted = true;
-            const {default: Component} = await importComponent();
-            Nprogress.done();
-            if (this.mounted) {
-                this.setState({
-                    component: <Component {...this.props} />
-                });
-            }
-        }
-
-        render() {
-            const Component = this.state.component ||
-                <div className="loader-view"
-                     style={{height: 'calc(100vh - 200px)'}}>
-                    <CircularProgress/>
-                </div>;
-            return (
-                <ReactPlaceholder type="text" rows={7} ready={Component !== null}>
-                    {Component}
-                </ReactPlaceholder>
-            );
-        }
-    }
-
-    return AsyncFunc;
+        const Component = component ||
+            <div className="loader-view"
+                 style={{height: 'calc(100vh - 200px)'}}>
+                <CircularProgress/>
+            </div>;
+        return (
+            <ReactPlaceholder type="text" rows={7} ready={Component !== null}>
+                {Component}
+            </ReactPlaceholder>
+        );
+    };
 }

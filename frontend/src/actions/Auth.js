@@ -11,10 +11,11 @@ import {
 } from "../constants/ActionTypes";
 
 
-export const signin = ({username, password, history}) => (dispatch) => {
+export const signin = ({email, password, history}) => (dispatch) => {
     dispatch({type: SET_LOADING, payload: true});
-    axios.get(`users?username=${username}&&password=${password}`)
+    axios.post('auth/login/', {email, password})
         .then(res => {
+            console.log(res)
             if (res.status === 200) {
                 if (res.data.length > 0) {
                     let authUser = res.data[0];
@@ -36,7 +37,7 @@ export const signin = ({username, password, history}) => (dispatch) => {
                         type: SIGNIN_ERROR,
                         payload: {
                             error: true,
-                            message: "invalid username or password."
+                            message: "invalid email or password."
                         }
                     });
                 }

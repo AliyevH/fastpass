@@ -5,9 +5,11 @@ import axios from '../utils/Api';
 import '../assets/css/main.css';
 import MainApp from '../route/HomePage/index';
 import SignIn from '../route/AuthPages/Login';
+import SignUp from '../route/AuthPages/Register';
 import {forceQuit, setInitUrl} from '../actions/Auth';
 import asyncComponent from '../utils/asyncComponent';
-import CircularProgress from "../components/circularProgress";
+import { CircularProgress } from '@material-ui/core';
+
 
 const RestrictedRoute = ({component: Component, authUser, token, ...rest}) => {
     const dispatch = useDispatch();
@@ -21,7 +23,7 @@ const RestrictedRoute = ({component: Component, authUser, token, ...rest}) => {
                     if (res.status === 200 && res.data.length > 0) {
                         setAuth(true);
                     } else {
-                        /*Fake 401 un authorization error*/
+                        //Fake 401 un authorization error
                         dispatch(forceQuit());
                         setAuth(false);
                         localStorage.clear();
@@ -60,14 +62,8 @@ const RestrictedRoute = ({component: Component, authUser, token, ...rest}) => {
 
 class App extends Component {
 
-    componentWillMount() {
-        if (this.props.initURL === '') {
-            this.props.setInitUrl(this.props.history.location.pathname);
-        }
-    }
-
     render() {
-        const {match, location, access_token, authUser,} = this.props;
+        const {location, access_token, authUser,} = this.props;
         if (location.pathname === '/') {
             if (access_token === null || !authUser) {
                 return (<Redirect to={'/signin'}/>);
@@ -82,6 +78,7 @@ class App extends Component {
                     <RestrictedRoute path={`/app`} authUser={authUser} token={access_token}
                                      component={MainApp}/>
                     <Route path='/signin' component={SignIn}/>
+                    <Route path='/signup' component={SignUp}/>
                     <Route
                         component={asyncComponent(() => import('../route/ErrorPage'))}/>
                 </Switch>

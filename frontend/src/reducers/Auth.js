@@ -12,7 +12,7 @@ import {
 
 const INIT_STATE = {
     initUrl: "",
-    username: "",
+    email: "",
     password: "",
     isLoading: false,
     loginError: {
@@ -20,7 +20,7 @@ const INIT_STATE = {
         message: ""
     },
     formErrors: {
-        username: {
+        email: {
             error: false,
             message: ""
         },

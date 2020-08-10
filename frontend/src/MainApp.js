@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import HomePage from './route/HomePage';
-import Login from './route/AuthPages/Login';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 import App from "./containers/App";
 
 function MainApp() {

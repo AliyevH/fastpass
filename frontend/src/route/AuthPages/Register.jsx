@@ -50,9 +50,6 @@ export default function Login() {
                         name="email"
                         autoFocus
                     />
-                    {
-                        false ? <span style={{ color: "#ff0032" }}>name incorrect</span> : null
-                    }
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -64,9 +61,6 @@ export default function Login() {
                         autoComplete="current-password"
 
                     />
-                    {
-                        false ? <span style={{ color: "#ff0032" }}>pass incorrect</span> : null
-                    }
                     <Button
                         type="submit"
                         fullWidth

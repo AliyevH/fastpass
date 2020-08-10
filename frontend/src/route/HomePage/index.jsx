@@ -20,8 +20,8 @@ const MainApp = () => {
             <SearchPanel />
             <div className={menuValue ? "active_navbar" : "pages_block"}>
                 <Switch>
-                    <Route exact path="/dashboard" component={Dashboard} />
-                    <Route exact path="/profile"  component={ProfilePage} />
+                    <Route exact path="/app/dashboard" component={Dashboard} />
+                    <Route exact path="/app/profile"  component={ProfilePage} />
                     <Route component={ErrorPage}></Route>
                 </Switch>
             </div>
