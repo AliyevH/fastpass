@@ -4,7 +4,7 @@ from fastapi import Request
 from starlette.responses import JSONResponse
 from app.utils.jwt_decode import jwt_token
 
-SECRET_KEY  = "603EB60C-3AD0-46DB-92B8-2813689E3272"
+SECRET_KEY = "603EB60C-3AD0-46DB-92B8-2813689E3272"
 
 
 async def add_process_time_header(request: Request, call_next):
