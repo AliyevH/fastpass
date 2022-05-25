@@ -22,7 +22,7 @@ psycopg2-binary==2.8.5
 pycparser==2.20
 pycryptodome==3.9.8
 pydantic==1.6.2
-PyJWT==1.7.1
+PyJWT==2.4.0
 pylint==2.5.3
 python-dateutil==2.8.1
 python-editor==1.0.4
